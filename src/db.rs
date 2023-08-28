@@ -7,13 +7,14 @@ use anyhow::{ Result, anyhow };
 use crate::models::{DBState, Epic, Story, Status};
 
 pub struct JiraDatabase {
-    database: Box<dyn Database>
+    pub database: Box<dyn Database>
 }
 
 impl JiraDatabase {
     pub fn new(file_path: String) -> Self {
         JiraDatabase { database: Box::new(JSONFileDatabase { file_path }) }
     }
+
 
     pub fn read_db(&self) -> Result<DBState> {
         self.database.read_db()
@@ -98,7 +99,7 @@ impl JiraDatabase {
     }
 }
 
-trait Database {
+pub trait Database {
     fn read_db(&self) -> Result<DBState>;
     fn write_db(&self, db_state: &DBState) -> Result<()>;
 }
